@@ -14,4 +14,4 @@ COPY --from=angular app/dist/app /usr/share/nginx/html
 
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+
