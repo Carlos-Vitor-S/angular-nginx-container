@@ -1,10 +1,11 @@
 FROM node:latest as angular
 WORKDIR /app
-COPY package.json .
-RUN npm install 
+COPY package.json /app
+RUN npm install --silent
+COPY . .
 RUN npm run build
 
-
-FROM nginx:latest
-COPY --from=angular /app/dist/app /usr/share/nginx/html
-EXPOSE 8080
+FROM nginx:alpine
+VOLUME /var/cache/nginx
+COPY --from=angular app/dist/app /usr/share/nginx/html
+COPY dist/app/config/nginx.conf /etc/nginx/conf.d/default.conf
